@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+<% if @person.has_parent? %>
+Parent ancestors: <%= @person.parent.ancestor_ids %>
+<% end %>
+<div class="tree">
+    <%= generate_tree @person %>
+</div>
+
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'Back', people_path %>

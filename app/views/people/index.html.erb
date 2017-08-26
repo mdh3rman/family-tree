@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>People</h1>
+
+<%= link_to 'New Person', new_person_path %>
+<ul>
+  <% @people.roots.each do |person| %>
+      <li> <%= link_to person.name, person %> - <%= link_to 'Edit', edit_person_path(person) %>
+        <% unless person.children.empty? %>
+          <ul>
+            <% person.descendants.each do |descendants| %>
+              <li> <%= link_to descendants.name, descendants %> - <%= descendants.relationshipType %> <%= link_to 'Edit', edit_person_path(descendants) %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </li>
+  <% end %>
+</ul>
+<p>
+  <% @people.each do |person| %>
+      <%= link_to person.name, person %> - <%= link_to 'Edit', edit_person_path(person) %> <br>
+  <%	end  %>
+</p>
+<p>
+To link ancestry manually, create all nodes first. Then link 3rd level to 2nd level. Then link 2nd level to 1st level
+</p>
+<br>
+
