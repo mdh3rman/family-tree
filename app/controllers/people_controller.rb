@@ -33,7 +33,6 @@ class PeopleController < ApplicationController
         attributes[:ancestry] = ancestors + '/' + attributes[:ancestry]
         @person.update_attributes(attributes)
       end
-
       respond_to do |format|
         if @person.save
           format.html { redirect_to @person, notice: 'Person was successfully created.' }
@@ -49,11 +48,16 @@ class PeopleController < ApplicationController
     # PATCH/PUT /people/1.json
     def update
       attributes = person_params.clone
-      if @person.ancestry.present?
-        parent = Person.find(@person.ancestry)
+      logger.debug 'PATCHING: ' + @person.attributes.to_s
+      logger.debug 'PARAMS RECEIVED: ' + attributes.to_s
+      if attributes[:ancestry].present?
+        logger.debug 'start joining ancestors'
+        parent = Person.find(attributes[:ancestry])
+        logger.debug 'PARENT: ' + parent.attributes.to_s
         ancestors = parent.ancestor_ids.join("/")
         attributes[:ancestry] = ancestors + '/' + attributes[:ancestry]
       end
+      logger.debug attributes
       respond_to do |format|
         if @person.update(attributes)
           format.html { redirect_to @person, notice: 'Person was successfully updated.' }

@@ -1,7 +1,7 @@
 module PeopleHelper
   def generate_tree(node)
     html = '<ul>'
-    html += "<li><a href=#>#{node.name}</a>"
+    html += '<li>' + link_to(node.name, person_path)
     html += generate_descendents (node)
     html += '</li>'
     html += '</ul>'
@@ -12,7 +12,7 @@ module PeopleHelper
     if node.has_children?
       html = '<ul>'
       node.children.each do |child|
-        html += "<li><a href=#>#{child.name}</a>"
+        html += '<li>' + link_to(child.name, child)
         if child.has_children?
           html += generate_descendents(child)
         end
